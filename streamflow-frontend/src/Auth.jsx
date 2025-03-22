@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import bs58 from "bs58";
-
-const BACKEND_URL = "http://localhost:3001"; 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:3001";
 
 const SolanaAuth = () => {
   const navigate = useNavigate();
