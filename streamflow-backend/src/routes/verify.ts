@@ -3,10 +3,14 @@ import bs58 from "bs58";
 import { PublicKey } from "@solana/web3.js";
 import * as nacl from "tweetnacl";
 
+
 const router = express.Router();
 
 router.post("/verify", async (req, res) => {
   try {
+    res.setHeader("Access-Control-Allow-Origin", req.headers.origin || '*');
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    
     const { signature, message, walletAddress } = req.body;
 
     if (!signature || !message || !walletAddress) {
