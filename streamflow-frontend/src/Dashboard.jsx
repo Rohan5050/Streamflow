@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { CircleDollarSign, Clock, Users, BarChart, Settings, Plus, CheckCircle } from 'lucide-react';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 // Main Dashboard Component
 const Dashboard = () => {
@@ -11,7 +12,7 @@ const Dashboard = () => {
   
   const fetchWorkflows = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/api/workflows');
+      const response = await axios.get(`${BACKEND_URL}/api/workflows`);
       if (response.data) {
         setWorkflows(response.data);
       } else {
@@ -33,7 +34,7 @@ const Dashboard = () => {
   
   const handleToggleStatus = async (workflowId) => {
     try {
-      await axios.patch(`http://localhost:3001/api/workflows/${workflowId}/toggle-status`);
+      await axios.patch(`${BACKEND_URL}/api/workflows/${workflowId}/toggle-status`);
       fetchWorkflows();
     } catch (error) {
       console.error('Error toggling workflow status:', error);
