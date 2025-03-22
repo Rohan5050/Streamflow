@@ -17,19 +17,67 @@ const SolanaAuth = () => {
     }
   }, [wallet]);
 
-  // Connect to Phantom Wallet
-  const connectWallet = async () => {
-    if (window.solana && window.solana.isPhantom) {
-      try {
-        const response = await window.solana.connect({ onlyIfTrusted: true });
-        setWallet(response.publicKey.toString());
-      } catch (error) {
-        console.error("Wallet connection failed:", error);
+  useEffect(() => {
+    async function checkIfWalletConnected() {
+      if (window.solana && window.solana.isPhantom) {
+        try {
+          const provider = window.solana;
+          const response = await provider.connect({ onlyIfTrusted: true });
+          if (response.publicKey) {
+            setWallet(response.publicKey.toString());
+          }
+        } catch (error) {
+          console.warn("No trusted connection found:", error);
+        }
       }
-    } else {
-      alert("Phantom Wallet not found. Please install it from https://phantom.app/download");
     }
-  };
+    checkIfWalletConnected();
+  }, []);
+
+  useEffect(() => {
+    if (window.solana) {
+      window.solana.on("disconnect", () => {
+        setWallet(null);
+        alert("Wallet disconnected. Please reconnect.");
+      });
+    }
+  }, []);
+
+  // Connect to Phantom Wallet
+  async function connectWallet() {
+    try {
+        if (window.solana && window.solana.isPhantom) {
+            const provider = window.solana;
+
+            // Request connection
+            const response = await provider.connect();
+            setWallet(response.publicKey.toString());
+            console.log("Wallet connected:", response.publicKey.toString());
+
+            return response.publicKey.toString();
+        } else {
+            alert("Phantom Wallet not detected! Please install it from https://phantom.app/");
+        }
+    } catch (error) {
+        console.error("Wallet connection failed:", error);
+        if (error.message.includes("User rejected the request")) {
+            alert("You rejected the connection request. Please try again.");
+        }
+    }
+}
+
+ // const connectWallet = async () => {
+ //   if (window.solana && window.solana.isPhantom) {
+ //     try {
+ //       const response = await window.solana.connect({ onlyIfTrusted: true });
+ //       setWallet(response.publicKey.toString());
+ //     } catch (error) {
+ //       console.error("Wallet connection failed:", error);
+ //     }
+ //   } else {
+ //     alert("Phantom Wallet not found. Please install it from https://phantom.app/download");
+  //  }
+ // };
 
   // Sign a message using the connected wallet
   const signMessage = async () => {
