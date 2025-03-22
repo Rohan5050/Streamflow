@@ -13,6 +13,12 @@ import analyticsRoutes from './routes/analytics';
 import { auth } from './middleware/auth';
 import { SolanaService} from "../src/services/SolanaService";
 
+const corsOptions = {
+  origin: ["https://streamflow-zeta.vercel.app/", "http://localhost:5173"], // ✅ Replace with your frontend URL
+  credentials: true, // ✅ Allows cookies to be sent
+};
+
+
 // Load environment variables
 dotenv.config();
 
@@ -21,7 +27,7 @@ const app = express();
 
 // Middleware
 app.use(helmet());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Rate limiting

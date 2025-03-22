@@ -19,7 +19,7 @@ router.post("/verify", async (req, res) => {
     const isValid = nacl.sign.detached.verify(encodedMessage, decodedSignature, publicKey.toBytes());
 
     if (isValid) {
-      // Generates a simple auth token (Replace this with JWT or session handling)
+      // Generate a simple auth token (Replace this with JWT or session handling)
       const authToken = Buffer.from(walletAddress).toString("base64");
 
       res.setHeader("Authorization", authToken);
