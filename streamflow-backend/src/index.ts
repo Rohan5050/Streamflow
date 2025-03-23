@@ -11,12 +11,7 @@ import recipientRoutes from './routes/recipients';
 import analyticsRoutes from './routes/analytics';
 //import authRoutes from './routes/auth';
 import { auth } from './middleware/auth';
-import { SolanaService} from "../src/services/SolanaService";
-
-const corsOptions = {
-  origin: ["https://streamflow-zeta.vercel.app/", "http://localhost:5173"], 
-  credentials: true, 
-};
+//import { SolanaService} from "../src/services/SolanaService";
 
 
 // Load environment variables
@@ -27,7 +22,12 @@ const app = express();
 
 // Middleware
 app.use(helmet());
-app.use(cors(corsOptions));
+app.use(cors({
+  origin: "https://streamflow-zeta.vercel.app",
+  methods: ["POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  exposedHeaders: ["Authorization"]
+}));
 app.use(express.json());
 
 // Rate limiting
