@@ -6,6 +6,10 @@ import * as nacl from "tweetnacl";
 const router = express.Router();
 
 router.post("/verify", async (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "POST");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Expose-Headers", "Authorization");
   try {
     const { signature, message, walletAddress } = req.body;
 
