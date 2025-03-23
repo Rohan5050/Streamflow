@@ -7,15 +7,15 @@ const SolanaAuth = () => {
   const navigate = useNavigate();
   const [wallet, setWallet] = useState(null);
   const [signature, setSignature] = useState(null);
-  const [balance, setBalance] = useState(null);
-  const [transactions, setTransactions] = useState([]);
+  //const [balance, setBalance] = useState(null);
+  //const [transactions, setTransactions] = useState([]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (wallet) {
       fetchBalance();
       fetchTransactions();
     }
-  }, [wallet]);
+  }, [wallet]);*/
 
   useEffect(() => {
     async function checkIfWalletConnected() {
@@ -103,7 +103,7 @@ const SolanaAuth = () => {
 
   const verifySignature = async (signature, message) => {
     try {
-      const response = await fetch(`${BACKEND_URL}/api/verify`, {
+      const response = await fetch(`http://localhost:3001/api/verify`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ signature, message, walletAddress: wallet }),
@@ -145,6 +145,7 @@ const SolanaAuth = () => {
   };
   
   // Fetch wallet balance
+  /*
   const fetchBalance = async () => {
     try {
       const response = await fetch(`${BACKEND_URL}/wallet/balance/${wallet}`);
@@ -164,8 +165,7 @@ const SolanaAuth = () => {
     } catch (error) {
       console.error("Failed to fetch transactions:", error);
     }
-  };
-
+  };*/
   return (
     <div className="p-8 max-w-lg mx-auto bg-gradient-to-b from-purple-50 to-blue-50 shadow-xl rounded-xl border border-gray-200">
       <h2 className="text-2xl font-bold mb-6 text-center text-indigo-800">Solana Authentication</h2>
@@ -200,7 +200,7 @@ const SolanaAuth = () => {
         </div>
       )}
 
-      {balance !== null && (
+      {/*balance !== null && (
         <div className="mt-6 p-4 bg-white rounded-lg shadow-sm border border-gray-100">
           <div className="flex justify-between items-center">
             <p className="text-gray-500">Your Balance</p>
@@ -209,7 +209,7 @@ const SolanaAuth = () => {
         </div>
       )}
 
-      {transactions.length > 0 && (
+      {/*transactions.length > 0 && (
         <div className="mt-6">
           <h3 className="text-lg font-semibold mb-3 text-indigo-800">Recent Transactions</h3>
           <div className="space-y-2 max-h-64 overflow-y-auto pr-2">
@@ -228,7 +228,7 @@ const SolanaAuth = () => {
             ))}
           </div>
         </div>
-      )}
+      )*/}
     </div>
   );
 };
