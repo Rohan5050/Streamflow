@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import bs58 from "bs58";
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "https://streamflow-backend-auos.onrender.com";
 
 const SolanaAuth = () => {
   const navigate = useNavigate();
@@ -103,6 +103,8 @@ const SolanaAuth = () => {
 
   const verifySignature = async (signature, message) => {
     try {
+      console.log("Sending API request to:", `${BACKEND_URL}/api/verify`);
+      console.log("Payload:", { signature, message, walletAddress: wallet });
       const response = await fetch(`${BACKEND_URL}/api/verify`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
