@@ -59,7 +59,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).json({ message: 'Something went wrong!' });
 });
 
-app.post("/auth/verify", async (req, res) => {
+/*app.post("/auth/verify", async (req, res) => {
   const { signature, message, walletAddress } = req.body;
 
   if (!signature || !message || !walletAddress) {
@@ -72,7 +72,7 @@ app.post("/auth/verify", async (req, res) => {
   } else {
     return res.status(401).json({ success: false, error: "Invalid signature" });
   }
-});
+});*/
 
 // Start server
 const PORT = process.env.PORT || 3001;
