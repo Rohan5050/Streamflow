@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import bs58 from "bs58";
+import axios from "axios";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 const SolanaAuth = () => {
@@ -103,10 +104,10 @@ const SolanaAuth = () => {
 
   const verifySignature = async (signature, message) => {
     try {
-      const response = await fetch(`${BACKEND_URL}/api/verify`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ signature, message, walletAddress: wallet }),
+      const response = await axios.post(`${BACKEND_URL}/api/verify`, {
+        signature,
+        message,
+        walletAddress: wallet
       });
   
       if (!response.ok) {
