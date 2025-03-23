@@ -11,7 +11,12 @@ import recipientRoutes from './routes/recipients';
 import analyticsRoutes from './routes/analytics';
 //import authRoutes from './routes/auth';
 import { auth } from './middleware/auth';
-//import { SolanaService} from "../src/services/SolanaService";
+import { SolanaService} from "../src/services/SolanaService";
+
+const corsOptions = {
+  origin: ["https://streamflow-zeta.vercel.app/", "http://localhost:5173"], 
+  credentials: true, 
+};
 
 
 // Load environment variables
@@ -22,12 +27,7 @@ const app = express();
 
 // Middleware
 app.use(helmet());
-app.use(cors({
-  origin: "https://streamflow-zeta.vercel.app",
-  methods: ["POST", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  exposedHeaders: ["Authorization"]
-}));
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Rate limiting
@@ -59,7 +59,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).json({ message: 'Something went wrong!' });
 });
 
-/*app.post("/auth/verify", async (req, res) => {
+app.post("/auth/verify", async (req, res) => {
   const { signature, message, walletAddress } = req.body;
 
   if (!signature || !message || !walletAddress) {
@@ -72,7 +72,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   } else {
     return res.status(401).json({ success: false, error: "Invalid signature" });
   }
-});*/
+});
 
 // Start server
 const PORT = process.env.PORT || 3001;
