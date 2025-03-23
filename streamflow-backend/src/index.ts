@@ -13,6 +13,10 @@ import analyticsRoutes from './routes/analytics';
 import { auth } from './middleware/auth';
 import { SolanaService} from "../src/services/SolanaService";
 
+const corsOptions = {
+  origin: ["https://streamflow-zeta.vercel.app/", "http://localhost:5173"], 
+  credentials: true, 
+};
 
 
 // Load environment variables
@@ -23,6 +27,7 @@ const app = express();
 
 // Middleware
 app.use(helmet());
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Rate limiting
@@ -54,6 +59,20 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).json({ message: 'Something went wrong!' });
 });
 
+app.post("/auth/verify", async (req, res) => {
+  const { signature, message, walletAddress } = req.body;
+
+  if (!signature || !message || !walletAddress) {
+    return res.status(400).json({ success: false, error: "Missing parameters" });
+  }
+
+  const isValid = await SolanaService.verifySignature(signature, message, walletAddress);
+  if (isValid) {
+    return res.json({ success: true });
+  } else {
+    return res.status(401).json({ success: false, error: "Invalid signature" });
+  }
+});
 
 // Start server
 const PORT = process.env.PORT || 3001;
