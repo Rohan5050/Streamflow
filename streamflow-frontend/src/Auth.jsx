@@ -103,7 +103,7 @@ const SolanaAuth = () => {
 
   const verifySignature = async (signature, message) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/verify`, {
+      const response = await fetch(`https://streamflow-backend-auos.onrender.com/api/verify`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ signature, message, walletAddress: wallet }),
