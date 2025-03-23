@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import bs58 from "bs58";
 import axios from "axios";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+console.log(BACKEND_URL);
 
 const SolanaAuth = () => {
   const navigate = useNavigate();
