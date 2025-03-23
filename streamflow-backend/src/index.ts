@@ -14,7 +14,7 @@ import { auth } from './middleware/auth';
 import { SolanaService} from "../src/services/SolanaService";
 
 const corsOptions = {
-  origin: ["https://streamflow-zeta.vercel.app/", "http://localhost:5173"], 
+  origin: ["https://streamflow-zeta.vercel.app", "http://localhost:5173"], 
   credentials: true, 
 };
 
